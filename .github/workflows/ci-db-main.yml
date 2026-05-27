@@ -1,0 +1,15 @@
+name: CI DB Main - Roboshop Catalogue
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'db/**'
+      - '.github/workflows/ci-db-main.yml'
+  workflow_dispatch:
+
+jobs:
+  cicd:
+    uses: raghudevopsb88/github-reusable-workflows/.github/workflows/cicd-m.yml@main
+    with:
+      make_target: docker-build-db

@@ -1,14 +1,14 @@
-FROM golang:1.22-alpine AS build
-RUN apk add --no-cache git
+FROM docker.io/library/golang:1.22 AS builder
 WORKDIR /app
-COPY go.mod go.sum* ./
-RUN go mod download 2>/dev/null || true
+COPY go.mod ./
 COPY . .
-RUN go mod tidy && CGO_ENABLED=0 go build -o catalogue .
+RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -o catalogue .
 
-FROM alpine:3.19
-RUN apk --no-cache add ca-certificates
+FROM docker.io/redhat/ubi9:latest
+RUN dnf install -y ca-certificates && dnf clean all
 WORKDIR /app
-COPY --from=build /app/catalogue .
-EXPOSE 8002
-CMD ["./catalogue"]
+COPY --from=builder /app/catalogue .
+COPY run.sh /run.sh
+RUN chmod +x /run.sh catalogue
+EXPOSE 8080
+ENTRYPOINT ["bash", "/run.sh"]
