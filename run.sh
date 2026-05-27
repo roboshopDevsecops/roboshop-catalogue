@@ -8,10 +8,13 @@ if [ -f /data/params ]; then
     set +a
 fi
 
-export MYSQL_HOST="${MYSQL_HOST:-mysql}"
-export MYSQL_USER="${MYSQL_USER:-catalogue}"
-export MYSQL_PASSWORD="${MYSQL_PASSWORD:-RoboShop@1}"
-export MYSQL_DATABASE="${MYSQL_DATABASE:-catalogue}"
-export PORT="${CATALOGUE_SERVER_PORT:-8080}"
+: "${MYSQL_HOST:?MYSQL_HOST is required}"
+: "${MYSQL_USER:?MYSQL_USER is required}"
+: "${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}"
+: "${MYSQL_DATABASE:?MYSQL_DATABASE is required}"
+: "${CATALOGUE_SERVER_PORT:?CATALOGUE_SERVER_PORT is required}"
+
+export MYSQL_HOST MYSQL_USER MYSQL_PASSWORD MYSQL_DATABASE
+export PORT="${CATALOGUE_SERVER_PORT}"
 
 exec ./catalogue
