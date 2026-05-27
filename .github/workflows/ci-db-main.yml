@@ -9,7 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  cicd:
-    uses: raghudevopsb88/github-reusable-workflows/.github/workflows/cicd-m.yml@main
-    with:
-      make_target: docker-build-db
+  docker-build-db:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build and push DB image
+        run: make docker-build-db
