@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+ls -l /data/params
+
+cat /data/params
+
 if [ -f /data/params ]; then
     set -a
     # shellcheck disable=SC1091
